@@ -21,6 +21,10 @@ except Exception as e:
 def index():
     return render_template('index.html')
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/registrar', methods=['POST'])
 def registrar():
     if google is None:

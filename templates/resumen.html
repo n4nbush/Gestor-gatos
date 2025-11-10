@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hola Mundo</title>
+</head>
+<body>
+  <main>
+    <h1 id="greeting">¡Hola Mundo!</h1>
+    <p>Si ves este texto, tu HTML está funcionando.</p>
+
+    <button id="testBtn" type="button">Haz clic para comprobar</button>
+  </main>
+
+  <script>
+    // Mensaje en la consola y acción del botón para verificar que JS también funciona
+    console.log("Página cargada: Hola Mundo");
+
+    document.getElementById("testBtn").addEventListener("click", function () {
+      // Muestra una alerta y cambia el texto del encabezado
+      alert("¡Funciona! — Hola Mundo");
+      document.getElementById("greeting").textContent = "¡Hola desde JavaScript!";
+    });
+  </script>
+</body>
+</html>
