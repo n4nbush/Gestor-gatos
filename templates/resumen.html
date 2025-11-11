@@ -29,21 +29,95 @@
           text-align: center;
             color: #333;
         }
+        :root{
+          --bg: #f7f7f7;
+          --card-bg: #ffffff;
+          --text: #222;
+          --accent: #e06d6d;
+          --gap: 12px;
+
+          /* paleta por categoría */
+          --hogar: #fdebd0;
+          --movilidad: #f4d3e3;
+          --finanzas: #dfeaf8;
+          /* etc. */
+        }
+
+        .categoria{
+          background: var(--card-bg);
+          border-radius: 6px;
+          padding: 12px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+          margin-bottom: var(--gap);
+        }
+
+        .categoria--hogar .categoria__header{ background: var(--hogar); }
+
+        .tabla-categoria{
+          width:100%;
+          border-collapse: collapse;
+          margin-top: 8px;
+        }
+
+        .tabla-categoria th,
+        .tabla-categoria td{
+          padding: 8px 10px;
+          border-bottom: 1px solid #eee;
+          text-align: right;
+        }
+
+        .tabla-categoria th:first-child,
+        .tabla-categoria td:first-child{
+          text-align: left;
+        }
+
+        .fila-total{
+          font-weight: 700;
+          background: rgba(0,0,0,0.03);
+        }
         
   </style>
 </head>
 <body>
   <main>
     
+
     <button onclick="window.location.href='/'">Cargar gasto</button>
 
-    <h1 id="greeting">Resumen</h1>
-    
-    <div class="lista">
-      <li>Moto</li>
-      <li>1000</li>
-    </div>
+        <!-- sección categoría -->
+    <section class="categoria categoria--hogar">
+      <header class="categoria__header">
+        <h2 class="categoria__titulo">Hogar y Servicios</h2>
+        <div class="categoria__meta">Total: <span class="categoria__total">$59,571</span></div>
+      </header>
 
+      <table class="tabla-categoria">
+        <caption class="sr-only">Gastos de Hogar y Servicios</caption>
+        <thead>
+          <tr>
+            <th scope="col">Concepto</th>
+            <th scope="col">septiembre</th>
+            <th scope="col">octubre</th>
+            <th scope="col">noviembre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Internet</th>
+            <td class="monto">-9,800</td>
+            <td class="monto">-9,800</td>
+            <td class="monto">$0</td>
+          </tr>
+          <!-- más filas -->
+        </tbody>
+        <tfoot>
+          <tr class="fila-total">
+            <th>Total</th>
+            <td colspan="3" class="monto total">$59,571</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
 
   </main>
 </body>

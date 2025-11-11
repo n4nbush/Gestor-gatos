@@ -86,6 +86,7 @@
             <select id="tipo" name="tipo" required>
                 <option value="Gasto">Gasto</option>
                 <option value="Ingreso">Ingreso</option>
+                <option value="Tarjeta">Tarjeta</option>
             </select>
         </div>
 
@@ -148,7 +149,7 @@
 
                 let motivos = [];
 
-                if (tipo === 'Gasto') {
+                if (tipo === 'Gasto' || tipo === 'Tarjeta') {
                     console.log("💰 Cargando motivos de gasto");
                     motivos = [
                         'Internet',
