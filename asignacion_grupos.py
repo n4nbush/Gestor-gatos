@@ -8,17 +8,23 @@ cursor = conn.cursor()
 
 
 sql_create_groups_table = """
-    CREATE TABLE IF NOT EXISTS categorias (
+    CREATE TABLE IF NOT EXISTS transferencias (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE,
-        group_id INTEGER NOT NULL,
-        FOREIGN KEY (group_id) REFERENCES groups (id)
+        fecha_hora TEXT ISO8601 NOT NULL,
+        dia INTEGER NOT NULL,
+        mes INTEGER NOT NULL,
+        anio INTEGER NOT NULL,
+        tipo TEXT NOT NULL,
+        category_id INTEGER NOT NULL,
+        monto_centavos INTEGER NOT NULL,
+        descripcion TEXT,
+        group_id INTEGER NOT NULL
     );
 """
 #cursor.execute(sql_create_groups_table)
 
 sql_borrar_tabla = """
-    DROP TABLE IF EXISTS categorias;
+    DROP TABLE IF EXISTS transferencias;
 """
 #cursor.execute(sql_borrar_tabla)
 
@@ -67,7 +73,6 @@ def chequeo():
             print(f"No se encontró la categoría '{x}'")
 
 
-chequeo()
 
 conn.commit()
 
