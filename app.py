@@ -8,7 +8,7 @@ import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'clave_temporal'  # Cambia esto
-DATABASE = 'datos.db'
+DATABASE = 'gastos.db'
 
 # Configuración
 file_name_gs = "key.json"
