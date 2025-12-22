@@ -6,47 +6,47 @@
   <title>Resumen</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Motivo</th>
+            <th>Monto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
 <body>
   <main>
     
 
     <button onclick="window.location.href='/'">Cargar gasto</button>
 
-        <!-- sección categoría -->
-    <section class="categoria categoria--hogar">
-      <header class="categoria__header">
-        <h2 class="categoria__titulo">Hogar y Servicios</h2>
-        <div class="categoria__meta">Total: <span class="categoria__total">$59,571</span></div>
-      </header>
-
-      <table class="tabla-categoria">
-        <caption class="sr-only">Gastos de Hogar y Servicios</caption>
-        <thead>
-          <tr>
-            <th scope="col">Concepto</th>
-            <th scope="col">septiembre</th>
-            <th scope="col">octubre</th>
-            <th scope="col">noviembre</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Internet</th>
-            <td class="monto">-9,800</td>
-            <td class="monto">-9,800</td>
-            <td class="monto">$0</td>
-          </tr>
-          <!-- más filas -->
-        </tbody>
-        <tfoot>
-          <tr class="fila-total">
-            <th>Total</th>
-            <td colspan="3" class="monto total">$59,571</td>
-          </tr>
-        </tfoot>
-      </table>
-    </section>
-
+    <form class="form" method="post" style="display: inline;">
+      <button type="submit" name="dia" value="1" style="width: 32%;padding: 10px;">Dia</button>
+      <button type="submit" name="semana" value="7" style="width: 32%;padding: 10px;">Semana</button>  
+      <button type="submit" name="mes" value="30" style="width: 32%;padding: 10px;">Mes</button>      
+    </form>
+    {%set ns = namespace(total=0.0)%}
+    {% for resultado in resultados %}   
+      <tr>
+        
+            <td>{{ resultado[0] }}</li>
+            <td>{{ resultado[1] }}</li>
+            <td>{{ resultado[2] }}</li>
+            <td>{{ resultado[3] }}</li>
+            <td>{{ resultado[4] }}</li>
+            {%set  ns.total = ns.total - (resultado[3]|float)%}
+ 
+    </tr>
+    {% endfor %}
+    <tfoot>
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{ ns.total }}</td>
+        <td></td>
+      </tr>
+    </tfoot>
   </main>
 </body>
 </html>

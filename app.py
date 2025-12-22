@@ -1,5 +1,5 @@
 from flask import Flask, render_template,g, request, redirect, url_for, flash
-from funciones import GoogleSheet
+import funciones
 from datetime import datetime
 import sqlite3
 
@@ -15,12 +15,6 @@ file_name_gs = "key.json"
 google_sheet = "Contabilidad_personal_v1.3"
 sheet_name = "Entrada_datos"
 
-try:
-    google = GoogleSheet(file_name_gs, google_sheet, sheet_name)
-    print("✅ Google Sheets conectado correctamente")
-except Exception as e:
-    print(f"❌ Error conectando Google Sheets: {e}")
-    google = None
 
 def get_db():
     """
@@ -70,15 +64,29 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
-@app.route('/resumen')
+@app.route('/resumen', methods=["GET","POST"])
 def resumen():
-    return render_template('resumen.html')
+    
+    if request.method == "POST":
+        if request.form.get("dia"):
+            dias = request.form.get("dia")
+        elif request.form.get("semana"):
+            dias = request.form.get("semana")
+            print(dias)
+        elif request.form.get("mes"):
+            dias = request.form.get("semana")
+        else:
+            dias = 7
+        return redirect(url_for('resumen',dias=dias))
+    
+    dias = request.args.get('dias', default=30, type=int)
+
+    resultados = funciones.traer_datos(dias)
+    return render_template('resumen.html', resultados=resultados)
 
 @app.route('/registrar', methods=['POST'])
 def registrar():
-    if google is None:
-        flash('❌ Error de conexión con Google Sheets', 'error')
-        return redirect(url_for('index'))
+    
 
     try:
         # Obtener datos del formulario
@@ -122,10 +130,6 @@ def registrar():
         cursor = db.cursor()
         cursor.executemany("INSERT INTO datos VALUES (?,?,?,?,?)", values)
         db.commit()
-
-        # Escribir en Sheets
-        rango = google.get_last_row_range()
-        google.write_data(rango, values)
 
         flash(f'✅ {tipo} registrado correctamente!', 'success')
 

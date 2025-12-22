@@ -1,5 +1,6 @@
 import gspread
 from datetime import time
+import sqlite3
 
 class GoogleSheet:
 
@@ -21,3 +22,21 @@ class GoogleSheet:
     
     def write_data(self, range, values): #range ej "A1:V1". values must be a list of list
         self.sheet.update(range, values)
+
+def traer_datos(dias=7):
+    conn = sqlite3.connect('gastos.db')
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+
+        SELECT * FROM datos
+        WHERE date(FECHA) >= date ('now',?)
+        order by FECHA DESC
+
+                
+    """,(f'-{dias} day',))
+
+    resultados = cursor.fetchall()
+    return(resultados)
+
