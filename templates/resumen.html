@@ -11,6 +11,7 @@
         <tr>
             <th>Fecha</th>
             <th>Tipo</th>
+            <th>Grupo</th>
             <th>Motivo</th>
             <th>Monto</th>
             <th>Descripción</th>
@@ -33,6 +34,7 @@
         
             <td>{{ resultado[0] }}</li>
             <td>{{ resultado[1] }}</li>
+            <td>{{seleccionar_categoria(resultado[2])}}</td>
             <td>{{ resultado[2] }}</li>
             <td>{{ (resultado[3]) }}</li>
             <td>{{ resultado[4] }}</li>
@@ -42,7 +44,7 @@
     {% endfor %}
     <tfoot>
       <tr>
-        <td colspan="3">Total</td>
+        <td colspan="4">Total</td>
         <td>{{ ns.total }}</td>
         <td></td>
       </tr>

@@ -2,6 +2,14 @@ import gspread
 from datetime import time
 import sqlite3
 
+
+Finanzas_y_Deudas = ["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"] 
+Consumo_y_Vida_Diaria = ["Gastos Hormiga", "Comida Trabajo","Almacén"]
+Hogar_y_Servicios = ["Internet","Celular","Ferretería","Luz","Servicios Digitales"]
+Familia = ["Niñera","Boris","Agustina"]
+Bienestar_y_Personales = ["Gustos","Ropa","GIM","Farmacia","Psicóloga","Peluquería","Indoor"]
+Transporte_y_Movilidad = ["Uber","Moto","Clio","SUBE"]
+
 class GoogleSheet:
 
     def __init__(self,file_name,document,sheet_name):
@@ -39,4 +47,21 @@ def traer_datos(dias=7):
 
     resultados = cursor.fetchall()
     return(resultados)
+
+def seleccionar_categoria(categoria):
+
+    if categoria in Finanzas_y_Deudas:
+        return("🧾 Finanzas y Deudas")
+    elif categoria in Consumo_y_Vida_Diaria:
+        return("🛒 Consumo y Vida Diaria")
+    elif categoria in Hogar_y_Servicios:
+        return("🏠 Hogar y Servicios")
+    elif categoria in Familia:
+        return("👨‍👩‍👦 Familia")
+    elif categoria in Bienestar_y_Personales:
+        return("🧍‍♂️ Bienestar y Personales")
+    elif categoria in Transporte_y_Movilidad:
+        return("🚗 Transporte y Movilidad")
+    
+
 

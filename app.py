@@ -46,11 +46,11 @@ def init_db():
         cursor = db.cursor()
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS datos (
-                fecha_hora TEXT,
-                tipo TEXT,
-                motivo TEXT,
-                monto REAL,
-                descripcion TEXT
+                FECHA TEXT,
+                TIPO TEXT,
+                MOTIVO TEXT,
+                IMPORTE REAL,
+                DESCRIPCION TEXT
             )
         """)
         db.commit()
@@ -74,15 +74,15 @@ def resumen():
             dias = request.form.get("semana")
             print(dias)
         elif request.form.get("mes"):
-            dias = request.form.get("semana")
+            dias = request.form.get("mes")
         else:
             dias = 7
         return redirect(url_for('resumen',dias=dias))
     
-    dias = request.args.get('dias', default=30, type=int)
+    dias = request.args.get('dias', default=7, type=int)
 
     resultados = funciones.traer_datos(dias)
-    return render_template('resumen.html', resultados=resultados)
+    return render_template('resumen.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
 
 @app.route('/registrar', methods=['POST'])
 def registrar():
