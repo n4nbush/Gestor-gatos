@@ -4,3 +4,4 @@ gastos.db
 gastos.backup
 key.json
 *. pyc
+push.py
