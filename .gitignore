@@ -1,4 +1,5 @@
-env/
-__pycache__/
-gastos.db
-key.json
+/.env/                                                                                              
+/__pycache__/                                                                                       
+gastos.db                                                                                           
+key.json                                                                                            
+*. pyc
