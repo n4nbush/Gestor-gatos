@@ -1,5 +1,5 @@
 import gspread
-from datetime import time
+from datetime import time, datetime
 import sqlite3
 
 
@@ -62,6 +62,34 @@ def seleccionar_categoria(categoria):
         return("🧍‍♂️ Bienestar y Personales")
     elif categoria in Transporte_y_Movilidad:
         return("🚗 Transporte y Movilidad")
+    
+def procesado_fecha(fecha):
+    fecha = fecha.replace("-","/")
+    dt = datetime.strptime(fecha,"%d/%m/%Y %H:%M:%S")
+    
+    fechas = [dt.day,dt.month,dt.year]
+
+    return(fechas)
+
+
+def procesamiento_de_datos():
+
+    conn = sqlite3.connect('gastos.db')
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT * FROM datos
+        order by FECHA DESC       
+    """)
+
+    resultados = cursor.fetchall()
+    return(resultados)
+
+lista_db=(procesamiento_de_datos())
+
+for x in lista_db:
+    print(x[0])
     
 
 
