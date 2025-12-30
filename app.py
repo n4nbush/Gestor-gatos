@@ -53,20 +53,6 @@ def init_db():
                 DESCRIPCION TEXT
             )
         """)
-        cursor.execute("""
-            create table if not exists datos_procesados(
-                       id INTEGER PRIMARY KEY AUTOINCREMENT,
-                       Fecha TEXT,
-                       Dia INTEGER,
-                       Mes INTEGER,
-                       Anio INTEGER,
-                       Tipo TEXT,
-                       Grupo TEXT,
-                       Motivo TEXT,
-                       Importe REAL,
-                       Descripcion TEXT
-                       )
-        """)
         db.commit()
     finally:
         db.close()
