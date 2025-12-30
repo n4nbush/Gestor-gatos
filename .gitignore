@@ -1,7 +1,8 @@
 env/
-/__pycache__/
+.env/
+__pycache__/
 gastos.db
 gastos.backup
 key.json
-*. pyc
+*.pyc
 push.py
