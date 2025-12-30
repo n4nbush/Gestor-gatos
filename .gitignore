@@ -1,8 +1,9 @@
 env/
 .env/
 __pycache__/
-gastos.db
-gastos.backup
+gastos*
 key.json
 *.pyc
 push.py
+fecha_ultimo_backup.json
+

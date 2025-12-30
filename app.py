@@ -76,10 +76,10 @@ def resumen():
         elif request.form.get("mes"):
             dias = request.form.get("mes")
         else:
-            dias = 7
+            dias = 60
         return redirect(url_for('resumen',dias=dias))
     
-    dias = request.args.get('dias', default=7, type=int)
+    dias = request.args.get('dias', default=60, type=int)
 
     resultados = funciones.traer_datos(dias)
     return render_template('resumen.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
