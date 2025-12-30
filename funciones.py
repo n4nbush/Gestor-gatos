@@ -102,6 +102,3 @@ def backup():
         print("Actualizando fecha del ultimo backup")
         with open('fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
             json.dump(fecha_ultimo_backup.isoformat(), archivo, indent=4, ensure_ascii=False)
-
-
-backup()
