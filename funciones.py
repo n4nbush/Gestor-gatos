@@ -87,9 +87,6 @@ def backup():
             shutil.copy2("gastos.db",nombre_backup)
 
 
-
-    print(fecha_ultimo_backup)
-
     diff = ahora - fecha_ultimo_backup
     diff = diff.days
 
