@@ -62,6 +62,7 @@ with app.app_context():
 
 @app.route('/')
 def index():
+    funciones.backup()
     return render_template('index.html')
 
 @app.route('/resumen', methods=["GET","POST"])
