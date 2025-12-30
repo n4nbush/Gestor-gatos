@@ -85,6 +85,13 @@ def resumen():
     resultados = funciones.traer_datos(dias)
     return render_template('resumen.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
 
+@app.route('/resumen_cat', methods=["GET","POST"])
+def resumen_cat():
+    listado = funciones.resumen_grupos()
+
+    return render_template('resumen_cat.html', listado=listado)
+
+
 @app.route('/registrar', methods=['POST'])
 def registrar():
     

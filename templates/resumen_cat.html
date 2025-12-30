@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resumen</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main>
+    
+
+    <button onclick="window.location.href='/'">Cargar gasto</button>
+    <button onclick="window.location.href='/resumen'">Ver Movimientos</button>
+    
+
+    <form class="form" method="post" style="display: inline;">
+      <button type="submit" name="dia" value="1" style="width: 31%;">Dia</button>
+      <button type="submit" name="semana" value="7" style="width: 31%;">Semana</button>  
+      <button type="submit" name="mes" value="30" style="width: 31%;">Mes</button>      
+    </form>
+    <table> 
+    <thead>
+        <tr>
+            <th>🏠 Hogar y Servicios</th>
+            <th>Monto</th>
+        </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        {% for total in listado["🏠 Hogar y Servicios"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+    {% endfor %}
+    </table>
+    <table>
+      <th>🛒 Consumo y Vida Diaria</th>  
+      <th>Monto</th>
+
+      <tfoot>
+      <tr>
+        {% for total in listado["🛒 Consumo y Vida Diaria"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+        {% endfor %}
+
+    </table>
+    <table>
+      <th>🚗 Transporte y Movilidad</th>
+      <th>Monto</th>
+      {% for total in listado["🚗 Transporte y Movilidad"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+        {% endfor %}
+    </table>
+    <table>
+      <th >👨‍👩‍👦 Familia</th>
+      <th>Monto</th>
+      {% for total in listado["👨‍👩‍👦 Familia"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+        {% endfor %}
+    </table>
+    <table>
+      <th >🧍‍♂️ Bienestar y Personales</th>
+      <th>Monto</th>
+      {% for total in listado["🧍‍♂️ Bienestar y Personales"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+        {% endfor %}
+    </table>
+    <table>
+      <th >🧾 Finanzas y Deudas</th>  
+      <th>Monto</th>
+      {% for total in listado["🧾 Finanzas y Deudas"].items() %}  
+      <tr>
+        <td>{{total[0]}}</td>
+        <td>${{total[1]}}</td>
+      </tr>
+      </tfoot>
+        {% endfor %}
+    </table>
+  </main>
+</body>
+</html>

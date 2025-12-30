@@ -1,14 +1,14 @@
 from datetime import time, datetime
 import sqlite3, shutil, json 
 
-
-Finanzas_y_Deudas = ["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"] 
-Consumo_y_Vida_Diaria = ["Gastos Hormiga", "Comida Trabajo","Almacén"]
-Hogar_y_Servicios = ["Internet","Celular","Ferretería","Luz","Servicios Digitales"]
-Familia = ["Niñera","Boris","Agustina"]
-Bienestar_y_Personales = ["Gustos","Ropa","GIM","Farmacia","Psicóloga","Peluquería","Indoor"]
-Transporte_y_Movilidad = ["Uber","Moto","Clio","SUBE"]
-
+grupos={
+    "🧾 Finanzas y Deudas":["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"],
+    "🛒 Consumo y Vida Diaria":["Gastos Hormiga", "Comida Trabajo","Almacén"],
+    "🏠 Hogar y Servicios":["Internet","Celular","Ferretería","Luz","Servicios Digitales"],
+    "👨‍👩‍👦 Familia":["Niñera","Boris","Agustina"],
+    "🧍‍♂️ Bienestar y Personales":["Gustos","Ropa","GIM","Farmacia","Psicóloga","Peluquería","Indoor"],
+    "🚗 Transporte y Movilidad":["Uber","Moto","Clio","SUBE"]
+}
 
 
 def traer_datos(dias=60):
@@ -30,18 +30,9 @@ def traer_datos(dias=60):
 
 def seleccionar_categoria(categoria):
 
-    if categoria in Finanzas_y_Deudas:
-        return("🧾 Finanzas y Deudas")
-    elif categoria in Consumo_y_Vida_Diaria:
-        return("🛒 Consumo y Vida Diaria")
-    elif categoria in Hogar_y_Servicios:
-        return("🏠 Hogar y Servicios")
-    elif categoria in Familia:
-        return("👨‍👩‍👦 Familia")
-    elif categoria in Bienestar_y_Personales:
-        return("🧍‍♂️ Bienestar y Personales")
-    elif categoria in Transporte_y_Movilidad:
-        return("🚗 Transporte y Movilidad")
+    for nombre_grupo, lista_categorias in grupos.items():
+        if categoria in lista_categorias:
+            return (nombre_grupo)
     
 def procesado_fecha(fecha):
     fecha = fecha.replace("-","/")
@@ -52,21 +43,7 @@ def procesado_fecha(fecha):
     return(fechas)
 
 
-def procesamiento_de_datos():
 
-    conn = sqlite3.connect('gastos.db')
-
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT * FROM datos
-        order by FECHA DESC       
-    """)
-
-    resultados = cursor.fetchall()
-    return(resultados)
-
-#lista_db=(procesamiento_de_datos())
 
 def backup():
     ahora = datetime.now()
@@ -97,3 +74,36 @@ def backup():
         print("Actualizando fecha del ultimo backup")
         with open('fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
             json.dump(fecha_ultimo_backup.isoformat(), archivo, indent=4, ensure_ascii=False)
+
+def resumen_grupos(dias=30):
+    listado=traer_datos(dias)
+    totales = {}
+    for x in listado:
+        categoria = x[2]
+
+        for nombre_grupo, lista_categoria in grupos.items():
+            if categoria in lista_categoria:    
+                monto = x[3]
+                for char in ["$",",","-"," "]:
+                    monto = monto.replace(char,"")
+                monto = float(monto)
+
+                if nombre_grupo not in totales:
+                    totales[nombre_grupo] = {}
+                    totales[nombre_grupo]["Total"] = 0
+
+                if categoria not in totales[nombre_grupo]:
+                    totales[nombre_grupo][categoria] = 0
+                    
+                totales[nombre_grupo]["Total"] += monto
+                totales[nombre_grupo][categoria] += monto
+                    
+                break
+    
+    return totales
+
+listado = resumen_grupos()
+
+
+for nombre,total in listado["🛒 Consumo y Vida Diaria"].items():
+    print (nombre,total)

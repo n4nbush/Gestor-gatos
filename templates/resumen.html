@@ -22,11 +22,13 @@
     
 
     <button onclick="window.location.href='/'">Cargar gasto</button>
+    <button onclick="window.location.href='/resumen_cat'">Resumen por categorias</button>
+    
 
     <form class="form" method="post" style="display: inline;">
-      <button type="submit" name="dia" value="1" style="width: 32%;padding: 10px;">Dia</button>
-      <button type="submit" name="semana" value="7" style="width: 32%;padding: 10px;">Semana</button>  
-      <button type="submit" name="mes" value="30" style="width: 32%;padding: 10px;">Mes</button>      
+      <button type="submit" name="dia" value="1" style="width: 31%;">Dia</button>
+      <button type="submit" name="semana" value="7" style="width: 31%;">Semana</button>  
+      <button type="submit" name="mes" value="30" style="width: 31%;">Mes</button>      
     </form>
     {%set ns = namespace(total=0.0)%}
     {% for resultado in resultados %}   
@@ -46,7 +48,6 @@
       <tr>
         <td colspan="4">Total</td>
         <td>{{ ns.total }}</td>
-        <td></td>
       </tr>
     </tfoot>
   </main>
