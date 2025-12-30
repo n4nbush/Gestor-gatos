@@ -68,8 +68,6 @@ def procesamiento_de_datos():
 
 #lista_db=(procesamiento_de_datos())
 
-
-
 def backup():
     ahora = datetime.now()
 
