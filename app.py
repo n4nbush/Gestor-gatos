@@ -65,8 +65,8 @@ def index():
     funciones.backup()
     return render_template('index.html')
 
-@app.route('/resumen', methods=["GET","POST"])
-def resumen():
+@app.route('/movimientos', methods=["GET","POST"])
+def movimientos():
     
     if request.method == "POST":
         if request.form.get("dia"):
@@ -78,12 +78,12 @@ def resumen():
             dias = request.form.get("mes")
         else:
             dias = 60
-        return redirect(url_for('resumen',dias=dias))
+        return redirect(url_for('movimientos',dias=dias))
     
     dias = request.args.get('dias', default=60, type=int)
 
     resultados = funciones.traer_datos(dias)
-    return render_template('resumen.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
+    return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
 
 @app.route('/resumen_cat', methods=["GET","POST"])
 def resumen_cat():

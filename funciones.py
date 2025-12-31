@@ -101,9 +101,3 @@ def resumen_grupos(dias=30):
                 break
     
     return totales
-
-listado = resumen_grupos()
-
-
-for nombre,total in listado["🛒 Consumo y Vida Diaria"].items():
-    print (nombre,total)
