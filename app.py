@@ -77,13 +77,15 @@ def movimientos():
         elif request.form.get("mes"):
             dias = request.form.get("mes")
         else:
-            dias = 60
-        return redirect(url_for('movimientos',dias=dias))
+            dias = 30
+        categoria = request.form.get('categoria')
+        return redirect(url_for('movimientos',dias=dias,categoria=categoria))
     
-    dias = request.args.get('dias', default=60, type=int)
+    dias = request.args.get('dias', default=30, type=int)
+    categoria = request.args.get('categoria', default=None)
 
-    resultados = funciones.traer_datos(dias)
-    return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria)
+    resultados = funciones.traer_datos(dias,categoria)
+    return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria, categorias=funciones.categorias, categoria=categoria)
 
 @app.route('/resumen_cat', methods=["GET","POST"])
 def resumen_cat():

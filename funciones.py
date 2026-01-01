@@ -10,20 +10,22 @@ grupos={
     "🚗 Transporte y Movilidad":["Uber","Moto","Clio","SUBE"]
 }
 
+categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos''Farmacia',]
 
-def traer_datos(dias=60):
+def traer_datos(dias=60,categoria=None):
     conn = sqlite3.connect('gastos.db')
-
     cursor = conn.cursor()
 
-    cursor.execute("""
+    query = "SELECT * FROM datos where date(FECHA) >= date('now',?)"
+    params = [f'-{dias} day']
 
-        SELECT * FROM datos
-        WHERE date(FECHA) >= date ('now',?)
-        order by FECHA DESC
+    if categoria is not None:
+        query += " AND MOTIVO = ?"
+        params.append(categoria)
 
-                
-    """,(f'-{dias} day',))
+    query += " ORDER BY FECHA DESC"
+
+    cursor.execute(query,params)
 
     resultados = cursor.fetchall()
     return(resultados)
