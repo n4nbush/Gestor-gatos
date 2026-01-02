@@ -47,7 +47,7 @@
         <button type="submit" style="width: 20%;">Filtrar</button>
       </form>
     </div>
-    <button onclick="toggleFiltros()">Filtros Avanzado▼</button>
+    <button onclick="toggleFiltros()" id="boton_filtros_avanzados">Filtros Avanzado▼</button>
 
     {%set ns = namespace(total=0.0)%}
     {% for resultado in resultados %}   
