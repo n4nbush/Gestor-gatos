@@ -53,7 +53,7 @@
     {% for resultado in resultados %}   
       <tr>
         
-            <td>{{ resultado[0] }}</li>
+            <td>{{ resultado[0][:10] }}</li>
             <td>{{ resultado[1] }}</li>
             <td>{{seleccionar_categoria(resultado[2])}}</td>
             <td>{{ resultado[2] }}</li>
