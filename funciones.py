@@ -10,7 +10,7 @@ grupos={
     "🚗 Transporte y Movilidad":["Uber","Moto","Clio","SUBE"]
 }
 
-categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos''Farmacia',]
+categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos','Farmacia']
 
 def traer_datos(dias=60,categoria=None):
     conn = sqlite3.connect('gastos.db')

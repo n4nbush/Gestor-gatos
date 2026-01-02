@@ -69,13 +69,8 @@ def index():
 def movimientos():
     
     if request.method == "POST":
-        if request.form.get("dia"):
-            dias = request.form.get("dia")
-        elif request.form.get("semana"):
-            dias = request.form.get("semana")
-            print(dias)
-        elif request.form.get("mes"):
-            dias = request.form.get("mes")
+        if request.form.get("filtro_fecha"):
+            dias = request.form.get("filtro_fecha")
         else:
             dias = 30
         categoria = request.form.get('categoria')
@@ -83,6 +78,8 @@ def movimientos():
     
     dias = request.args.get('dias', default=30, type=int)
     categoria = request.args.get('categoria', default=None)
+    if categoria == "":
+        categoria = None
 
     resultados = funciones.traer_datos(dias,categoria)
     return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria, categorias=funciones.categorias, categoria=categoria)
