@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Resumen</title>
   <link rel="stylesheet" href="/static/styles.css">
+
 </head>
 
 <table>
@@ -25,30 +26,28 @@
     <button onclick="window.location.href='/'">Cargar gasto</button>
     <button onclick="window.location.href='/resumen_cat'">Resumen por categorias</button>
     
-
-    <form class="form" method="post" style="display: inline;">
-      <label for="miListaDesplegable">Selecciona un periodo:</label>
-      <select name="filtro_fecha" id="filtro_fecha">
-        <option value="30" selected>Seleccione un periodo</option>
-        <option value="1">Dia</option>
-        <option value="7">Semana</option>
-        <option value="30">Mes</option>
-        <option value="60">60 dias</option>
-        <option value="360">Año</option>
-      </select>
-      <label for="miListaDesplegable">Selecciona una categoria:</label>
-      <select name="categoria">
-          {% for categoria in categorias %}
-            <option  value="{{categoria}}">{{categoria}}</option>
-          {%endfor%}
-          <option value="" selected>Seleccione una categoria</option>
-        </select>     
-      <button type="submit" style="width: 20%;">Filtrar</button>
-    </form>
-    <form class="form" method="post" style="display: inline;">
-        
-
-    </form>
+    <div id="filtros_avanzados" class="oculto">
+      <form class="form" method="post" style="display: inline;">
+        <label for="miListaDesplegable">Selecciona un periodo:</label>
+        <select name="filtro_fecha" id="filtro_fecha">
+          <option value="30" selected>Seleccione un periodo</option>
+          <option value="1">Dia</option>
+          <option value="7">Semana</option>
+          <option value="30">Mes</option>
+          <option value="60">60 dias</option>
+          <option value="360">Año</option>
+        </select>
+        <label for="miListaDesplegable">Selecciona una categoria:</label>
+        <select name="categoria">
+            {% for categoria in categorias %}
+              <option  value="{{categoria}}">{{categoria}}</option>
+            {%endfor%}
+            <option value="" selected>Seleccione una categoria</option>
+          </select>     
+        <button type="submit" style="width: 20%;">Filtrar</button>
+      </form>
+    </div>
+    <button onclick="toggleFiltros()">Filtros Avanzado▼</button>
 
     {%set ns = namespace(total=0.0)%}
     {% for resultado in resultados %}   
@@ -70,6 +69,8 @@
         <td>{{ ns.total }}</td>
       </tr>
     </tfoot>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+
   </main>
 </body>
 </html>

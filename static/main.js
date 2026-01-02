@@ -126,3 +126,7 @@ console.log("✅ Script cargado correctamente");
         window.addEventListener('load', function() {
             console.log("🖼️ Ventana completamente cargada");
         });
+        function toggleFiltros(){
+            console.log("mostrando filtros avanzados")
+            document.getElementById('filtros_avanzados').classList.toggle('oculto');
+        }
