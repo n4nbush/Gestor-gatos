@@ -22,7 +22,7 @@ def traer_datos(dias=60,categoria=None):
     if categoria is not None:
         query += " AND MOTIVO = ?"
         params.append(categoria)
-
+    
     query += " ORDER BY FECHA DESC"
 
     cursor.execute(query,params)
@@ -104,20 +104,32 @@ def resumen_grupos(dias=30):
     
     return totales
 
+def limpiar_datos(monto):
+    for char in ["$",",","-"," "]:
+        monto = monto.replace(char,"")
+    return float(monto)
 
-def traer_datos_procesados(dias,categoria=None):
-    resultados=traer_datos(dias)
-    movimientos = []
-
-    print (resultados)
+def traer_datos_procesados(dias):
+    resultados=list(traer_datos(dias))
+    listado=[]
     for x in resultados:
-        for movimiento in x:  
-            grupo = [seleccionar_categoria(movimiento)]
-            movimiento = list(resultado)
-            movimiento.append(grupo)
+        movimientos=[]
+        for movimento in (list(x)):
+            movimiento = movimento
+            if movimiento in categorias:
+                grupo = seleccionar_categoria(movimiento)
+                movimientos.append(grupo)
             movimientos.append(movimiento)
-    return(movimientos)
+        movimientos[4] = limpiar_datos(movimientos[4])
+        listado.append(movimientos)
+    return(listado)
+listado_movimeintos=traer_datos_procesados(10)
 
-for x in (traer_datos_procesados(15)):
-    for i in x:
-        print (i)
+def filtrar_grupo(lista,grupo):
+    listado=[]
+    for x in (lista):
+        if x[2] == grupo:
+            listado.append(x)
+    return(listado)
+
+
