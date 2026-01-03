@@ -103,3 +103,21 @@ def resumen_grupos(dias=30):
                 break
     
     return totales
+
+
+def traer_datos_procesados(dias,categoria=None):
+    resultados=traer_datos(dias)
+    movimientos = []
+
+    print (resultados)
+    for x in resultados:
+        for movimiento in x:  
+            grupo = [seleccionar_categoria(movimiento)]
+            movimiento = list(resultado)
+            movimiento.append(grupo)
+            movimientos.append(movimiento)
+    return(movimientos)
+
+for x in (traer_datos_procesados(15)):
+    for i in x:
+        print (i)
