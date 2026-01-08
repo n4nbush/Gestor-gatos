@@ -7,7 +7,9 @@ grupos={
     "🏠 Hogar y Servicios":["Internet","Celular","Ferretería","Luz","Servicios Digitales"],
     "👨‍👩‍👦 Familia":["Niñera","Boris","Agustina"],
     "🧍‍♂️ Bienestar y Personales":["Gustos","Ropa","GIM","Farmacia","Psicóloga","Peluquería","Indoor"],
-    "🚗 Transporte y Movilidad":["Uber","Moto","Clio","SUBE"]
+    "🚗 Transporte y Movilidad":["Uber","Moto","Clio","SUBE"],
+    "Otros Gastos":["Otros Gastos"],
+    "Ingresos":["Salario","Inversiones","Regalo","Reembolso","Otros Ingresos"]
 }
 
 categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos','Farmacia']
@@ -109,27 +111,18 @@ def limpiar_datos(monto):
         monto = monto.replace(char,"")
     return float(monto)
 
-def traer_datos_procesados(dias):
-    resultados=list(traer_datos(dias))
-    listado=[]
-    for x in resultados:
-        movimientos=[]
-        for movimento in (list(x)):
-            movimiento = movimento
-            if movimiento in categorias:
-                grupo = seleccionar_categoria(movimiento)
-                movimientos.append(grupo)
-            movimientos.append(movimiento)
-        movimientos[4] = limpiar_datos(movimientos[4])
-        listado.append(movimientos)
-    return(listado)
-listado_movimeintos=traer_datos_procesados(10)
-
-def filtrar_grupo(lista,grupo):
-    listado=[]
-    for x in (lista):
-        if x[2] == grupo:
-            listado.append(x)
-    return(listado)
-
+def filtrar(dias=30,grupo_select=None,categoria_select=None):
+    listado_prueba=(traer_datos(dias))
+    resultados=[]
+    total = 0
+    for fecha,tipo,categoria,monto,descripcion in listado_prueba:
+        grupo = seleccionar_categoria(categoria)
+        if grupo_select is not None and grupo != grupo_select:
+            continue
+        if categoria_select is not None and categoria != categoria_select:
+            continue
+        monto = limpiar_datos(monto)
+        total += monto
+        resultados.append([fecha,tipo,categoria,grupo,monto,descripcion])
+    return(resultados,total)
 

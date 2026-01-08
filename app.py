@@ -74,15 +74,19 @@ def movimientos():
         else:
             dias = 30
         categoria = request.form.get('categoria')
-        return redirect(url_for('movimientos',dias=dias,categoria=categoria))
+        grupo = request.form.get('grupo')
+        return redirect(url_for('movimientos',dias=dias,categoria=categoria,grupo=grupo))
     
     dias = request.args.get('dias', default=30, type=int)
     categoria = request.args.get('categoria', default=None)
+    grupo = request.args.get('grupo', default=None)
     if categoria == "":
         categoria = None
+    if grupo == "":
+        grupo = None
 
-    resultados = funciones.traer_datos(dias,categoria)
-    return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria, categorias=funciones.categorias, categoria=categoria)
+    resultados,total = funciones.filtrar(dias,categoria_select=categoria,grupo_select=grupo)
+    return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria, categorias=funciones.categorias, categoria=categoria, total=total,grupos=funciones.grupos.keys())
 
 @app.route('/resumen_cat', methods=["GET","POST"])
 def resumen_cat():

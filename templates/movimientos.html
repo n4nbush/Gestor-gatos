@@ -37,36 +37,40 @@
           <option value="60">60 dias</option>
           <option value="360">Año</option>
         </select>
+        <label for="miListaDesplegable">Selecciona un grupo:</label>
+        <select name="grupo">
+          {%for grupo in grupos%}
+            <option value="{{grupo}}">{{grupo}}</option>
+          {%endfor%}
+            <option value="" selected>Seleccione un grupo</option>
+        </select> 
         <label for="miListaDesplegable">Selecciona una categoria:</label>
         <select name="categoria">
             {% for categoria in categorias %}
               <option  value="{{categoria}}">{{categoria}}</option>
             {%endfor%}
             <option value="" selected>Seleccione una categoria</option>
-          </select>     
-        <button type="submit" style="width: 20%;">Filtrar</button>
+          </select>
+          <button type="submit" style="width: 20%;">Filtrar</button>
       </form>
     </div>
     <button onclick="toggleFiltros()" id="boton_filtros_avanzados">Filtros Avanzado▼</button>
 
-    {%set ns = namespace(total=0.0)%}
     {% for resultado in resultados %}   
       <tr>
         
             <td>{{ resultado[0][:10] }}</li>
             <td>{{ resultado[1] }}</li>
-            <td>{{seleccionar_categoria(resultado[2])}}</td>
-            <td>{{ resultado[2] }}</li>
-            <td>{{ (resultado[3]) }}</li>
-            <td>{{ resultado[4] }}</li>
-            {%set  ns.total = ns.total - (resultado[3]|float)%}
- 
+            <td>{{resultado[2]}}</td>
+            <td>{{ resultado[3] }}</li>
+            <td>${{ (resultado[4]) }}</li>
+            <td>{{ resultado[5] }}</li> 
     </tr>
     {% endfor %}
     <tfoot>
       <tr>
-        <td colspan="4">Total</td>
-        <td>{{ ns.total }}</td>
+        <td colspan="5">Total</td>
+        <td>${{ total }}</td>
       </tr>
     </tfoot>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
