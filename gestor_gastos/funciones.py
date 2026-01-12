@@ -1,6 +1,6 @@
 from datetime import time, datetime
 import sqlite3, shutil, json, os
-
+from flask import Flask, render_template,g, request, redirect, url_for, flash
 
 grupos={
     "🧾 Finanzas y Deudas":["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"],
@@ -14,6 +14,38 @@ grupos={
 }
 
 categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos','Farmacia']
+
+def init_db(DATABASE):
+    """
+    Crea la tabla 'datos' si no existe. Llamar manualmente si la DB no está creada.
+    """
+    db = sqlite3.connect(DATABASE)
+    try:
+        cursor = db.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS datos (
+                FECHA TEXT,
+                TIPO TEXT,
+                MOTIVO TEXT,
+                IMPORTE REAL,
+                DESCRIPCION TEXT
+            )
+        """)
+        db.commit()
+    finally:
+        db.close()
+
+def get_db(DATABASE):
+    """
+    Obtiene (o crea) una conexión a la base de datos por contexto de petición.
+    No se comparte la conexión entre hilos.
+    """
+    if 'db' not in g:
+        # puedes añadir detect_types o timeout si lo necesitas
+        g.db = sqlite3.connect(DATABASE, detect_types=sqlite3.PARSE_DECLTYPES)
+        # opcional: filas como dict
+        g.db.row_factory = sqlite3.Row
+    return g.db
 
 def traer_datos(dias=60,categoria=None):
     conn = sqlite3.connect('data_base/gastos.db')

@@ -1,8 +1,10 @@
 from flask import Flask, render_template,g, request, redirect, url_for, flash
 from .  import gastos_bp  # Importar el blueprint del __init__. py
-
+import datetime
 # Opción A: Si moviste funciones.py a gastos/
 from .  import funciones
+
+DATABASE = 'data_base/gastos.db'
 
 
 @gastos_bp.route('/')
@@ -77,7 +79,7 @@ def registrar():
         values = [[fecha_hora, tipo, motivo, monto, descripcion]]
         
         # Escribir en la base de datos: usar conexión por petición (get_db)
-        db = get_db()
+        db = funciones.get_db(DATABASE)
         cursor = db.cursor()
         cursor.executemany("INSERT INTO datos VALUES (?,?,?,?,?)", values)
         db.commit()
@@ -91,7 +93,7 @@ def registrar():
         flash(f'❌ Error: {str(e)}', 'error')
         print(f"Error general: {e}")
 
-    return redirect(url_for('index'))
+    return redirect(url_for('gastos.index'))
 
 
 @gastos_bp.route('/resumen_cat', methods=["GET","POST"])
