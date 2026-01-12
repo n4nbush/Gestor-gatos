@@ -1,5 +1,6 @@
 from datetime import time, datetime
-import sqlite3, shutil, json 
+import sqlite3, shutil, json, os
+
 
 grupos={
     "🧾 Finanzas y Deudas":["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"],
@@ -15,7 +16,7 @@ grupos={
 categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos','Farmacia']
 
 def traer_datos(dias=60,categoria=None):
-    conn = sqlite3.connect('gastos.db')
+    conn = sqlite3.connect('data_base/gastos.db')
     cursor = conn.cursor()
 
     query = "SELECT * FROM datos where date(FECHA) >= date('now',?)"
@@ -51,18 +52,18 @@ def procesado_fecha(fecha):
 
 def backup():
     ahora = datetime.now()
-
+    os.makedirs('gestor_gastos/backup', exist_ok=True)
 
     try:
-        with open('fecha_ultimo_backup.json','r') as f:
+        with open('gestor_gastos/backup/fecha_ultimo_backup.json','r') as f:
             fecha_str = json.load(f)
             fecha_ultimo_backup = datetime.fromisoformat(fecha_str)
     except (FileNotFoundError, json.JSONDecodeError, ValueError):
         print("Archivo json de fecha backup no existe, creando uno nuevo")
         fecha_ultimo_backup = datetime.now()
-        with open('fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
+        with open('gestor_gastos/backup/fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
             json.dump(fecha_ultimo_backup.isoformat(), archivo, indent=4, ensure_ascii=False)
-            nombre_backup=f"gastos_{ahora.strftime('%Y-%m-%d_%H-%M')}.db"
+            nombre_backup=f"gestor_gastos/backup/gastos_{ahora.strftime('%Y-%m-%d_%H-%M')}.db"
             shutil.copy2("gastos.db",nombre_backup)
 
 
