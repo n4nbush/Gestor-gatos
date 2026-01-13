@@ -1,6 +1,7 @@
 from datetime import time, datetime
 import sqlite3, shutil, json, os
 from flask import Flask, render_template,g, request, redirect, url_for, flash
+from config import Config
 
 grupos={
     "🧾 Finanzas y Deudas":["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"],
@@ -48,7 +49,7 @@ def get_db(DATABASE):
     return g.db
 
 def traer_datos(dias=60,categoria=None):
-    conn = sqlite3.connect('data_base/gastos.db')
+    conn = sqlite3.connect(Config.DATABASE)
     cursor = conn.cursor()
 
     query = "SELECT * FROM datos where date(FECHA) >= date('now',?)"
