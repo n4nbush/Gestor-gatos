@@ -2,7 +2,7 @@ from flask import Flask, render_template,g, request, redirect, url_for, flash
 from datetime import datetime
 import sqlite3
 from gestor_gastos import gastos_bp,funciones
-
+from config import Config
 
 
 # Coneccion a la base de datos y cursor
@@ -10,7 +10,9 @@ from gestor_gastos import gastos_bp,funciones
 
 app = Flask(__name__)
 app.secret_key = 'clave_temporal'  # Cambia esto
-DATABASE = 'data_base/gastos.db'
+app.config.from_object(Config)
+
+DATABASE = app.config['DATABASE']
 
 
 @app.teardown_appcontext

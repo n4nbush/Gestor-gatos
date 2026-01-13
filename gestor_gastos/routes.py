@@ -1,4 +1,4 @@
-from flask import Flask, render_template,g, request, redirect, url_for, flash
+from flask import Flask, render_template,g, request, redirect, url_for, flash, current_app
 from .  import gastos_bp  # Importar el blueprint del __init__. py
 import datetime
 # Opción A: Si moviste funciones.py a gastos/
@@ -79,7 +79,8 @@ def registrar():
         values = [[fecha_hora, tipo, motivo, monto, descripcion]]
         
         # Escribir en la base de datos: usar conexión por petición (get_db)
-        db = funciones.get_db(DATABASE)
+        db_path = current_app.config['DATABASE']
+        db = funciones.get_db(db_path)
         cursor = db.cursor()
         cursor.executemany("INSERT INTO datos VALUES (?,?,?,?,?)", values)
         db.commit()
