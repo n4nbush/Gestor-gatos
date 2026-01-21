@@ -2,6 +2,7 @@ from datetime import time, datetime
 import sqlite3, shutil, json, os
 from flask import Flask, render_template,g, request, redirect, url_for, flash
 from config import Config
+from contextlib import closing
 
 grupos={
     "🧾 Finanzas y Deudas":["Deuda Viejo","Tarjeta Visa","Tarjeta Master","Deuda Banco"],
@@ -16,6 +17,8 @@ grupos={
 
 categorias = ['Internet','Luz','Celular','Ferretería','Servicios Digitales','Moto','SUBE','Uber','Clio','Deuda Viejo','Tarjeta Master','Tarjeta Visa','Deuda Banco','Almacén','Comida Trabajo','Gastos Hormiga','Agustina','Boris','Niñera','Ropa','Psicóloga','Gustos','Peluquería','GIM','Indoor','Otros gastos','Farmacia']
 
+DATABASE = Config.DATABASE
+
 def init_db(DATABASE):
     """
     Crea la tabla 'datos' si no existe. Llamar manualmente si la DB no está creada.
@@ -24,10 +27,12 @@ def init_db(DATABASE):
     try:
         cursor = db.cursor()
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS datos (
+            CREATE TABLE IF NOT EXISTS datos_crudos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 FECHA TEXT,
                 TIPO TEXT,
-                MOTIVO TEXT,
+                METODO_PAGO TEXT,
+                CATEGORIA TEXT,
                 IMPORTE REAL,
                 DESCRIPCION TEXT
             )
@@ -36,7 +41,7 @@ def init_db(DATABASE):
     finally:
         db.close()
 
-def get_db(DATABASE):
+def get_db():
     """
     Obtiene (o crea) una conexión a la base de datos por contexto de petición.
     No se comparte la conexión entre hilos.
@@ -48,20 +53,11 @@ def get_db(DATABASE):
         g.db.row_factory = sqlite3.Row
     return g.db
 
-def traer_datos(dias=60,categoria=None):
-    conn = sqlite3.connect(Config.DATABASE)
+def traer_datos(dias=60,DATABASE=DATABASE):
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    query = "SELECT * FROM datos where date(FECHA) >= date('now',?)"
-    params = [f'-{dias} day']
-
-    if categoria is not None:
-        query += " AND MOTIVO = ?"
-        params.append(categoria)
-    
-    query += " ORDER BY FECHA DESC"
-
-    cursor.execute(query,params)
+    cursor.execute(f"SELECT * FROM datos_crudos WHERE fecha >= date('now', '-{dias} days') ORDER BY fecha DESC")
 
     resultados = cursor.fetchall()
     return(resultados)
@@ -73,15 +69,22 @@ def seleccionar_categoria(categoria):
             return (nombre_grupo)
     
 def procesado_fecha(fecha):
-    fecha = fecha.replace("-","/")
-    dt = datetime.strptime(fecha,"%d/%m/%Y %H:%M:%S")
-    
-    fechas = [dt.day,dt.month,dt.year]
-
-    return(fechas)
-
-
-
+    fecha = fecha.replace("T", " ")
+    formatos = ['%Y-%m-%d %H:%M:%S',
+                '%d/%m/%Y %H:%M:%S',
+                '%Y-%m-%d %H:%M',
+                '%d-%m-%Y %H:%M:%S']
+    dt = None
+    for formato in formatos:
+        try:
+            dt = datetime.strptime(fecha.strip(), formato)
+            break
+        except ValueError:
+            continue
+    if dt is None:
+        print(f"No se pudo parsear la fecha: {fecha}")
+        return fecha
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
 
 def backup():
     ahora = datetime.now()
@@ -140,7 +143,13 @@ def resumen_grupos(dias=30):
     
     return totales
 
-def limpiar_datos(monto):
+def asignar_grupos(categoria):
+    
+    for nombre_grupo,lista_categoria in grupos.items():
+        if categoria in lista_categoria:
+            return(nombre_grupo)
+
+def limpiar_monto(monto):
     for char in ["$",",","-"," "]:
         monto = monto.replace(char,"")
     return float(monto)
@@ -149,14 +158,78 @@ def filtrar(dias=30,grupo_select=None,categoria_select=None):
     listado_prueba=(traer_datos(dias))
     resultados=[]
     total = 0
-    for fecha,tipo,categoria,monto,descripcion in listado_prueba:
+    for id,fecha,tipo,mpago,categoria,monto,descripcion in listado_prueba:
         grupo = seleccionar_categoria(categoria)
         if grupo_select is not None and grupo != grupo_select:
             continue
         if categoria_select is not None and categoria != categoria_select:
             continue
-        monto = limpiar_datos(monto)
+        mpago=mpago
+        monto = monto
         total += monto
-        resultados.append([fecha,tipo,categoria,grupo,monto,descripcion])
+        resultados.append([id,fecha,tipo,mpago,categoria,grupo,monto,descripcion])
     return(resultados,total)
+
+def procesar_datos(listado):
+    
+    resultado = []
+    for i in listado:
+        fecha = procesado_fecha(i[0])
+        tipo = i[1]
+        if i[1] == "Tarjeta":
+            tipo = "Gasto"
+            metodo_pago = "Tarjeta"
+        else:
+            metodo_pago = "Debito"
+        grupo = asignar_grupos(i[2])
+        categoria = i[2]
+        monto = limpiar_monto(i[3])
+        descripcion = i[4]
+        resultado.append([fecha,tipo,metodo_pago,categoria,monto,descripcion])
+    return(resultado)
+
+def obtener_datos(tabla):
+    import sqlite3
+    
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    
+    cursor.execute(f"SELECT * FROM {tabla}")
+    datos = cursor.fetchall()
+    
+    conn.close()
+    return datos
+
+def cargar_db(fecha,tipo,mpago,categoria,monto,desc):
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.executemany("INSERT INTO datos_crudos VALUES (?,?,?,?,?,?)", fecha,tipo,mpago,categoria,monto,desc)
+        db.commit()
+
+def borrar_tabla(tabla):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    # Sentencia SQL para borrar la tabla 'usuarios'
+    # La cláusula IF EXISTS es opcional, evita errores si la tabla no existe
+    cursor.execute(f'DROP TABLE IF EXISTS "{tabla}"')
+    # Confirmar los cambios
+    conn.commit()
+
+    # Cerrar la conexión
+    conn.close()
+    print(f'Tabla{tabla}eliminada exitosamente')
+
+def cargar_db(datos, DATABASE):
+    conn = sqlite3.connect(DATABASE)
+    try:
+        conn.executemany(
+            """INSERT INTO datos_crudos 
+               (FECHA, TIPO, METODO_PAGO, CATEGORIA, IMPORTE, DESCRIPCION) 
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            datos
+        )
+        conn.commit()
+    finally:
+        conn. close()
 

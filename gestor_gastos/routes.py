@@ -2,7 +2,7 @@ from flask import Flask, render_template,g, request, redirect, url_for, flash, c
 from .  import gastos_bp  # Importar el blueprint del __init__. py
 import datetime
 # Opción A: Si moviste funciones.py a gastos/
-from .  import funciones
+import funciones
 
 DATABASE = 'data_base/gastos.db'
 

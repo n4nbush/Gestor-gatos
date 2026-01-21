@@ -12,11 +12,9 @@
     <thead>
         <tr>
             <th>Fecha</th>
-            <th>Tipo</th>
-            <th>Grupo</th>
-            <th>Motivo</th>
+            <th>Categoria</th>
             <th>Monto</th>
-            <th>Descripción</th>
+            <th>Ver mas</th>
         </tr>
     </thead>
 <body>
@@ -58,18 +56,15 @@
 
     {% for resultado in resultados %}   
       <tr>
-        
-            <td>{{ resultado[0][:10] }}</li>
-            <td>{{ resultado[1] }}</li>
-            <td>{{resultado[2]}}</td>
-            <td>{{ resultado[3] }}</li>
-            <td>${{ (resultado[4]) }}</li>
-            <td>{{ resultado[5] }}</li> 
+            <td>{{ resultado[1][:10] }}</td>
+            <td>{{resultado[4]}}</td>
+            <td>${{ (resultado[6]) }}</td>
+            <td><button>Ver mas</button></td>
     </tr>
     {% endfor %}
     <tfoot>
       <tr>
-        <td colspan="5">Total</td>
+        <td colspan="2">Total</td>
         <td>${{ total }}</td>
       </tr>
     </tfoot>

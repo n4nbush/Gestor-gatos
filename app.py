@@ -1,7 +1,8 @@
 from flask import Flask, render_template,g, request, redirect, url_for, flash
 from datetime import datetime
 import sqlite3
-from gestor_gastos import gastos_bp,funciones
+import funciones
+from gestor_gastos import gastos_bp
 from config import Config
 
 
