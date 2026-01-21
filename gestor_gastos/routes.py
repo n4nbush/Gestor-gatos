@@ -3,6 +3,7 @@ from .  import gastos_bp  # Importar el blueprint del __init__. py
 import datetime
 # Opción A: Si moviste funciones.py a gastos/
 import funciones
+from config import Config
 
 DATABASE = 'data_base/gastos.db'
 
@@ -44,6 +45,7 @@ def registrar():
     try:
         # Obtener datos del formulario
         tipo = request.form['tipo']
+        metodo_pago = request.form['metodo_pago']
         motivo = request.form['motivo']
         monto = float(request.form['monto'])
         descripcion = request.form.get('descripcion', ' ')
@@ -76,14 +78,10 @@ def registrar():
         if tipo == 'Gasto':
             monto = -abs(monto)
 
-        values = [[fecha_hora, tipo, motivo, monto, descripcion]]
+        values = [[fecha_hora, tipo,metodo_pago, motivo, monto, descripcion]]
         
         # Escribir en la base de datos: usar conexión por petición (get_db)
-        db_path = current_app.config['DATABASE']
-        db = funciones.get_db(db_path)
-        cursor = db.cursor()
-        cursor.executemany("INSERT INTO datos VALUES (?,?,?,?,?)", values)
-        db.commit()
+        funciones.cargar_db(values,Config.DATABASE)
 
         flash(f'✅ {tipo} registrado correctamente!', 'success')
 
