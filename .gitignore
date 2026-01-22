@@ -1,7 +1,7 @@
 env/
 .env/
 __pycache__/
-data_base/
+database/
 key.json
 *.pyc
 push.py
