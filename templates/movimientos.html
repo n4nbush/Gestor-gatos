@@ -59,9 +59,13 @@
             <td>{{ resultado[1][:10] }}</td>
             <td>{{resultado[4]}}</td>
             <td>${{ (resultado[6]) }}</td>
-            <td><form action="post">
-              <button>Ver mas</button>
-            </form></td>
+            <td>
+            <form action="/borrar" method="post">
+              <input type="hidden" name="id" value="{{resultado[0]}}">
+              <button type="submit">Ver más</button>
+            </form>
+            </td>
+</td>
     </tr>
     {% endfor %}
     <tfoot>

@@ -244,4 +244,3 @@ def borrar_id(id):
     finally:
             conn. close()
 
-borrar_id("566")

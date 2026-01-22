@@ -36,6 +36,16 @@ def movimientos():
     resultados,total = funciones.filtrar(dias,categoria_select=categoria,grupo_select=grupo)
     return render_template('movimientos.html', resultados=resultados, seleccionar_categoria=funciones.seleccionar_categoria, categorias=funciones.categorias, categoria=categoria, total=total,grupos=funciones.grupos.keys())
 
+@gastos_bp.route('/borrar',methods=['POST'])
+def borrar_movimiento():
+    try:
+        id = request.form['id']
+    except:
+        print("Error")
+
+    funciones.borrar_id(id)
+
+    return redirect(url_for('gastos.movimientos'))    
 
 
 @gastos_bp.route('/registrar', methods=['POST'])
@@ -75,8 +85,7 @@ def registrar():
             return redirect(url_for('index'))
 
         # Si es gasto, hacer negativo el monto
-        if tipo == 'Gasto':
-            monto = -abs(monto)
+        
 
         values = [[fecha_hora, tipo,metodo_pago, motivo, monto, descripcion]]
         
