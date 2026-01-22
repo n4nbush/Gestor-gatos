@@ -233,3 +233,15 @@ def cargar_db(datos, DATABASE):
     finally:
         conn. close()
 
+
+def borrar_id(id):
+    conn = sqlite3.connect(DATABASE)
+    try:
+            
+            query = f"DELETE FROM datos_crudos WHERE id = {id} ;" 
+            conn.execute(query)
+            conn.commit()
+    finally:
+            conn. close()
+
+borrar_id("566")
