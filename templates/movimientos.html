@@ -60,13 +60,37 @@
             <td>{{resultado[4]}}</td>
             <td>${{ (resultado[6]) }}</td>
             <td>
-            <form action="/borrar" method="post">
-              <input type="hidden" name="id" value="{{resultado[0]}}">
-              <button type="submit">Ver más</button>
-            </form>
+            <button onclick="document.getElementById('{{resultado[0]}}').classList.toggle('oculto')">ℹ️</button>
             </td>
-</td>
+            
     </tr>
+    <tr class="oculto" id="{{resultado[0]}}">
+      <td colspan="5">
+        <div style="padding: 15px; background-color: #e9ecef;">
+          <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; align-items: center;">
+            <span style="font-weight: bold;">Tipo:</span>
+            <span>{{resultado[2]}}</span>
+
+            <span style="font-weight: bold;">Método de pago:</span>
+            <span>{{resultado[3]}}</span>
+
+            <span style="font-weight: bold;">Grupo:</span>
+            <span>{{resultado[5]}}</span>
+            
+            <span style="font-weight: bold;">Descripción:</span>
+            <span>{{resultado[7]}}</span>
+            
+            <div style="grid-column: 1 / -1; margin-top: 10px;">
+              <form action="/borrar" method="post">
+                <input type="hidden" name="id" value="{{resultado[0]}}">
+                <button type="submit">Borrar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+
     {% endfor %}
     <tfoot>
       <tr>
