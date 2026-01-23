@@ -23,6 +23,8 @@ def init_db(DATABASE):
     """
     Crea la tabla 'datos' si no existe. Llamar manualmente si la DB no está creada.
     """
+    os.makedirs(Config.DATABASE_FOLDER, exist_ok=True)
+
     db = sqlite3.connect(DATABASE)
     try:
         cursor = db.cursor()
@@ -100,7 +102,7 @@ def backup():
         with open('gestor_gastos/backup/fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
             json.dump(fecha_ultimo_backup.isoformat(), archivo, indent=4, ensure_ascii=False)
             nombre_backup=f"gestor_gastos/backup/gastos_{ahora.strftime('%Y-%m-%d_%H-%M')}.db"
-            shutil.copy2("gastos.db",nombre_backup)
+            shutil.copy2(DATABASE,nombre_backup)
 
 
     diff = ahora - fecha_ultimo_backup

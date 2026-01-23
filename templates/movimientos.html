@@ -1,13 +1,8 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Resumen</title>
-  <link rel="stylesheet" href="/static/styles.css">
+{% extends 'base_layout.html' %}
+{%block categoria%}"movimientos"{%endblock%}
+{%block titulo%}Movimientos{%endblock%}
 
-</head>
-
+{%  block body %}
 <table>
     <thead>
         <tr>
@@ -21,8 +16,6 @@
   <main>
     
     
-    <button onclick="window.location.href='/'">Cargar gasto</button>
-    <button onclick="window.location.href='/resumen_cat'">Resumen por categorias</button>
     
     <div id="filtros_avanzados" class="oculto">
       <form class="form" method="post" style="display: inline;">
@@ -98,8 +91,5 @@
         <td>${{ total }}</td>
       </tr>
     </tfoot>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
 
-  </main>
-</body>
-</html>
+    {% endblock %}

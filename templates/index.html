@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registro de Gastos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
-
-    <button onclick="window.location.href='/movimientos'">Ver Movimientos</button>
+{% extends 'base_layout.html' %}
+{%block categoria%}"gastos"{%endblock%}
+{%block titulo%}Registrar gasto{%endblock%}
+{%  block body %}
 
     <h1>💰 Registrar Movimiento</h1>
 
@@ -60,8 +54,4 @@
 
         <button type="submit">💾 Guardar Movimiento</button>
     </form>
-
-      <script src="{{ url_for('static', filename='main.js') }}"></script>
-
-</body>
-</html>
+{%endblock%}

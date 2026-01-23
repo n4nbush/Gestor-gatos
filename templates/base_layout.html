@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <title data-categoria={%block categoria%}{%endblock%} id="titulo">{%block titulo%}{%endblock%}</title>
+</head>
+<body >
+    <button onclick="toggleMenu()" id="Boton_menu">Menu▼</button>
+    <div id="menu" class="oculto">
+        <button onclick="window.location.href='/'" id="boton_gastos">Registrar gasto</button>
+        <button onclick="window.location.href='/movimientos'" id="boton_movimientos">Ver Movimientos</button>
+        <button onclick="window.location.href='/resumen_grupos'" id="boton_grupos">Resumen por grupos</button>
+    </div>
+    {%  block body %}
+
+    {% endblock %}
+
+    <script src="/static/main.js"></script> 
+
+</body>
+</html>

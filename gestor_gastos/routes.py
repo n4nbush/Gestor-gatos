@@ -5,11 +5,12 @@ import datetime
 import funciones
 from config import Config
 
-DATABASE = 'data_base/gastos.db'
+DATABASE = Config.DATABASE
 
 
 @gastos_bp.route('/')
 def index():
+    
     funciones.backup()
     return render_template('index.html')
 

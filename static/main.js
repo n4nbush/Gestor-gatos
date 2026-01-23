@@ -138,3 +138,29 @@ console.log("✅ Script cargado correctamente");
             
 
         }
+        function toggleMenu(){
+            console.log("mostrando menu")
+            document.getElementById('menu').classList.toggle('oculto');
+            const listaBotones = ['gastos','movimientos','grupos'];
+            const tituloElem = document.getElementById('titulo');   
+            
+            if(tituloElem){
+                console.log("El titulo existe")
+                const categoria = tituloElem.dataset.categoria;
+                for(let x of listaBotones) {
+                    if (categoria === x){
+                        const idBoton = 'boton_' + x; 
+                        document.getElementById(idBoton).classList.toggle('oculto');
+                    }
+                }
+            }
+
+            if ((document.getElementById('Boton_menu').textContent) != 'Menu▼') {
+                document.getElementById('Boton_menu').textContent = 'Menu▼';
+            }else{
+                document.getElementById('Boton_menu').textContent = 'Menu▲';
+            }
+            
+
+        }
+        
