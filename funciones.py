@@ -93,13 +93,13 @@ def backup():
     os.makedirs('gestor_gastos/backup', exist_ok=True)
 
     try:
-        with open('gestor_gastos/backup/fecha_ultimo_backup.json','r') as f:
+        with open(Config.BACKUP,'r') as f:
             fecha_str = json.load(f)
             fecha_ultimo_backup = datetime.fromisoformat(fecha_str)
     except (FileNotFoundError, json.JSONDecodeError, ValueError):
         print("Archivo json de fecha backup no existe, creando uno nuevo")
         fecha_ultimo_backup = datetime.now()
-        with open('gestor_gastos/backup/fecha_ultimo_backup.json', 'w', encoding='utf-8') as archivo:
+        with open(Config.BACKUP, 'w', encoding='utf-8') as archivo:
             json.dump(fecha_ultimo_backup.isoformat(), archivo, indent=4, ensure_ascii=False)
             nombre_backup=f"gestor_gastos/backup/gastos_{ahora.strftime('%Y-%m-%d_%H-%M')}.db"
             shutil.copy2(DATABASE,nombre_backup)
@@ -157,18 +157,27 @@ def limpiar_monto(monto):
     return float(monto)
 
 def filtrar(dias=30,grupo_select=None,categoria_select=None):
-    listado_prueba=(traer_datos(dias))
+    listado=(traer_datos(dias))
     resultados=[]
-    total = 0
-    for id,fecha,tipo,mpago,categoria,monto,descripcion in listado_prueba:
+    total = {
+        "Total general":0,
+        "🧾 Finanzas y Deudas":0,
+        "🛒 Consumo y Vida Diaria":0,
+        "🏠 Hogar y Servicios":0,
+        "👨‍👩‍👦 Familia":0,
+        "🧍‍♂️ Bienestar y Personales":0,
+        "Otros Gastos":0,
+        "Ingresos":0
+    }
+    for id,fecha,tipo,mpago,categoria,monto,descripcion in listado:
         grupo = seleccionar_categoria(categoria)
         if grupo_select is not None and grupo != grupo_select:
             continue
         if categoria_select is not None and categoria != categoria_select:
             continue
         mpago=mpago
-        monto = monto
-        total += monto
+        total[grupo] += monto
+        total["Total general"] += monto
         resultados.append([id,fecha,tipo,mpago,categoria,grupo,monto,descripcion])
     return(resultados,total)
 

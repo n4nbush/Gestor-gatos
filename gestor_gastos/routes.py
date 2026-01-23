@@ -105,9 +105,10 @@ def registrar():
     return redirect(url_for('gastos.index'))
 
 
-@gastos_bp.route('/resumen_cat', methods=["GET","POST"])
+@gastos_bp.route('/resumen_grupos', methods=["GET","POST"])
 def resumen_cat():
-    listado = funciones.resumen_grupos()
-
-    return render_template('resumen_cat.html', listado=listado)
+    resumen, total = funciones.filtrar()
+    grupos = list(total.keys())
+    print(grupos[2])
+    return render_template('resumen_grupos.html',total=total,grupos=grupos)
 

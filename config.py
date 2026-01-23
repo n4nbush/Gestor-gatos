@@ -8,4 +8,4 @@ class Config:
     DATABASE = os.path.join(DATABASE_FOLDER,'database.db')
 
     BACKUP_FOLDER = os.path.join(BASE_DIR,'gestor_gastos/backup')
-    BACKUP = os.path.join(BACKUP_FOLDER,)
+    BACKUP = os.path.join(BACKUP_FOLDER,'fecha_ultimo_backup.json')
