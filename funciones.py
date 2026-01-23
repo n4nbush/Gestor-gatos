@@ -176,7 +176,8 @@ def filtrar(dias=30,grupo_select=None,categoria_select=None):
         if categoria_select is not None and categoria != categoria_select:
             continue
         mpago=mpago
-        total[grupo] += monto
+        if grupo in total:
+            total[grupo] += monto
         total["Total general"] += monto
         resultados.append([id,fecha,tipo,mpago,categoria,grupo,monto,descripcion])
     return(resultados,total)
