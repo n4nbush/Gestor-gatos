@@ -109,6 +109,5 @@ def registrar():
 def resumen_cat():
     resumen, total = funciones.filtrar()
     grupos = list(total.keys())
-    print(grupos[2])
     return render_template('resumen_grupos.html',total=total,grupos=grupos)
 
