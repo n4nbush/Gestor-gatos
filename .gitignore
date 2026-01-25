@@ -7,4 +7,4 @@ key.json
 push.py
 fecha_ultimo_backup.json
 gestor_gastos/backup/
-
+.env

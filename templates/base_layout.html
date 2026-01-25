@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/static/styles.css">
     <title data-categoria={%block categoria%}{%endblock%} id="titulo">{%block titulo%}{%endblock%}</title>
 </head>
-<body >
+<body onload="formateo_monto()">
     <button onclick="toggleMenu()" id="Boton_menu">Menu▼</button>
     <div id="menu" class="oculto">
         <button onclick="window.location.href='/'" id="boton_gastos">Registrar gasto</button>

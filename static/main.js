@@ -163,4 +163,15 @@ console.log("✅ Script cargado correctamente");
             
 
         }
-        
+        function formateo_monto(){
+            console.log("Holiwi")
+            document.querySelectorAll('.monto').forEach(function(elemento){
+                const valor = parseFloat(elemento.dataset.valor);
+                const formato = new Intl.NumberFormat('es-AR',{
+                    style: 'currency',
+                    currency: 'ARS',
+                    minimumFractionDigits: 1
+                }).format(valor);
+                elemento.textContent = formato;
+            });
+        }

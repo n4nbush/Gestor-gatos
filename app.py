@@ -1,17 +1,19 @@
 from flask import Flask, render_template,g, request, redirect, url_for, flash
 from datetime import datetime
-import sqlite3
+import sqlite3, os
 import funciones
 from gestor_gastos import gastos_bp
 from config import Config
+from dotenv import load_dotenv
 
+load_dotenv()
 
 # Coneccion a la base de datos y cursor
 
-
-app = Flask(__name__)
-app.secret_key = 'clave_temporal'  # Cambia esto
+app = Flask(__name__)  # Cambia esto
 app.config.from_object(Config)
+app.secret_key = os.environ.get('SECRET_KEY') 
+
 
 DATABASE = app.config['DATABASE']
 

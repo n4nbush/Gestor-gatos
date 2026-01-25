@@ -167,6 +167,7 @@ def filtrar(dias=30,grupo_select=None,categoria_select=None):
         "👨‍👩‍👦 Familia":0,
         "🧍‍♂️ Bienestar y Personales":0,
         "Otros Gastos":0,
+        "Ingresos":0
     }
     for id,fecha,tipo,mpago,categoria,monto,descripcion in listado:
         grupo = seleccionar_categoria(categoria)
@@ -177,7 +178,9 @@ def filtrar(dias=30,grupo_select=None,categoria_select=None):
         mpago=mpago
         if grupo in total:
             total[grupo] += monto
-        total["Total general"] += monto
+        if tipo == "Gasto":
+            total["Total general"] += monto
+        
         resultados.append([id,fecha,tipo,mpago,categoria,grupo,monto,descripcion])
     return(resultados,total)
 

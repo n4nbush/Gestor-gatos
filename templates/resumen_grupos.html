@@ -3,7 +3,26 @@
 {%block titulo%}Movimientos{%endblock%}
 
 {%  block body %}
-<h1>hola fuking mundo</h1>
+
+<div>
+  <h1>Totales</h1>
+  <table>
+    
+    <tr>
+      <td>Gastos: </td>
+      <td class="monto" data-valor="{{total.get("Total general")}}"></td>
+    </tr>
+    <tr>
+      <td>Ingresos:</td>
+      <td class="monto" data-valor="{{total.get("Ingresos")}}"></td>
+    </tr>
+    <tr>
+      <td>Diferencia: </td>
+      <td class="monto" data-valor="{{total.get("Ingresos")-total.get("Total general")}}"></td>
+    </tr>
+    </table>
+</div>
+<h1>Resumen por grupos</h1>
   <table>
     <thead>
         <tr>
@@ -14,8 +33,10 @@
       {%for grupo in grupos%}
   <tr>
       <td>{{grupo}}</td>
-      <td>{{total.get(grupo)}}</td>
+      <td class="monto" data-valor="{{total.get(grupo)}}"></td>
     </tr>
     {%endfor%}
+
+
 
 {% endblock %}
