@@ -1,7 +1,5 @@
 Flask==2.3.3
 gspread==5.8.0
-google-auth==2.17.3
-google-api-python-client==2.80.0aiohappyeyeballs==2.6.1
 aiohttp==3.13.3
 aiosignal==1.4.0
 annotated-types==0.7.0
@@ -21,12 +19,6 @@ dotenv==0.9.9
 Flask==2.3.3
 fonttools==4.61.1
 frozenlist==1.8.0
-google-api-core==2.29.0
-google-api-python-client==2.80.0
-google-auth==2.17.3
-google-auth-httplib2==0.3.0
-google-auth-oauthlib==1.2.4
-googleapis-common-protos==1.72.0
 gspread==5.8.0
 h11==0.16.0
 httpcore==1.0.9
